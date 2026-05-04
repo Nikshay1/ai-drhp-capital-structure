@@ -1,0 +1,182 @@
+{
+  "company_name": "Acme Analytics Private Limited",
+  "cin": "U72200KA2018PTC123456",
+  "events": [
+    {
+      "event_id": "evt_incorporation",
+      "meeting_date": null,
+      "incorporation_date": "2018-03-12",
+      "meeting_type": null,
+      "capital_before": null,
+      "capital_after": {
+        "total_rupees": 100000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 10000,
+            "face_value": 10
+          }
+        ],
+        "description": "10,000 Equity Shares of ₹10 each aggregating to ₹1,00,000"
+      },
+      "particulars": "Initial Authorised Share Capital at the time of incorporation of the Company."
+    },
+    {
+      "event_id": "evt_2019_aug",
+      "meeting_date": "2019-08-05",
+      "meeting_type": "EGM",
+      "capital_before": {
+        "total_rupees": 100000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 10000,
+            "face_value": 10
+          }
+        ],
+        "description": "10,000 Equity Shares of ₹10 each aggregating to ₹1,00,000"
+      },
+      "capital_after": {
+        "total_rupees": 500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "50,000 Equity Shares of ₹10 each aggregating to ₹5,00,000"
+      },
+      "particulars": "Increase in Authorised Share Capital from ₹1,00,000 to ₹5,00,000 by creation of additional 40,000 Equity Shares of ₹10 each."
+    },
+    {
+      "event_id": "evt_2021_sep",
+      "meeting_date": "2021-09-22",
+      "meeting_type": "EGM",
+      "capital_before": {
+        "total_rupees": 500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "50,000 Equity Shares of ₹10 each aggregating to ₹5,00,000"
+      },
+      "capital_after": {
+        "total_rupees": 1500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 100000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "1,00,000 Equity Shares of ₹10 each and 50,000 Preference Shares of ₹10 each aggregating to ₹15,00,000"
+      },
+      "particulars": "Increase in Authorised Share Capital from ₹5,00,000 to ₹15,00,000 by creation of additional 50,000 Equity Shares and introduction of 50,000 Preference Shares of ₹10 each."
+    },
+    {
+      "event_id": "evt_2023_jul",
+      "meeting_date": "2023-07-14",
+      "meeting_type": "AGM",
+      "capital_before": {
+        "total_rupees": 1500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 100000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "1,00,000 Equity Shares of ₹10 each and 50,000 Preference Shares of ₹10 each aggregating to ₹15,00,000"
+      },
+      "capital_after": {
+        "total_rupees": 5500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 500000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "5,00,000 Equity Shares of ₹10 each and 50,000 Preference Shares of ₹10 each aggregating to ₹55,00,000"
+      },
+      "particulars": "Increase in Authorised Equity Share Capital from ₹10,00,000 to ₹50,00,000 by creation of additional 4,00,000 Equity Shares of ₹10 each. Preference Share Capital remains unchanged at ₹5,00,000."
+    },
+    {
+      "event_id": "evt_2025_feb",
+      "meeting_date": "2025-02-09",
+      "meeting_type": "EGM",
+      "capital_before": {
+        "total_rupees": 5500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 500000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "5,00,000 Equity Shares of ₹10 each and 50,000 Preference Shares of ₹10 each aggregating to ₹55,00,000"
+      },
+      "capital_after": {
+        "total_rupees": 5500000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 2500000,
+            "face_value": 2
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "description": "25,00,000 Equity Shares of ₹2 each and 50,000 Preference Shares of ₹10 each aggregating to ₹55,00,000"
+      },
+      "particulars": "Sub-division of Equity Shares from face value of ₹10 each to ₹2 each. Each Equity Share of ₹10 subdivided into 5 Equity Shares of ₹2 each. Total Authorised Share Capital remains unchanged at ₹55,00,000."
+    }
+  ],
+  "flags": [
+    {
+      "event_id": "evt_2021_sep",
+      "field": "meeting_date",
+      "reason": "Board resolution dated 2021-09-15 but SH-7 references EGM date as 2021-09-22. Discrepancy of 7 days — board resolution precedes EGM as expected, but verify EGM notice for actual meeting date.",
+      "severity": "warning"
+    },
+    {
+      "event_id": "evt_2021_sep",
+      "field": "attachments",
+      "reason": "PAS-3 (Return of Allotment) found in attachments — not relevant to authorised capital alteration. Excluded from extraction.",
+      "severity": "info"
+    },
+    {
+      "event_id": "evt_2025_feb",
+      "field": "capital_after",
+      "reason": "Sub-division event: total authorised capital unchanged at ₹55,00,000 but share count and face value changed. Verified arithmetic: 25,00,000 × ₹2 = ₹50,00,000 (equity) + 50,000 × ₹10 = ₹5,00,000 (preference) = ₹55,00,000.",
+      "severity": "info"
+    }
+  ]
+}
