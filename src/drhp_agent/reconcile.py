@@ -65,19 +65,30 @@ def _check_continuity(events: list[CapitalAlteration]) -> list[Flag]:
         prev = events[i - 1]
         curr = events[i]
         if not _capitals_equal(curr.capital_before, prev.capital_after):
-            pb = prev.capital_after.total_rupees if prev.capital_after else "?"
-            cb = curr.capital_before.total_rupees if curr.capital_before else "?"
+            pa = prev.capital_after
+            cb = curr.capital_before
+            # Build helpful detail
+            if pa and cb and pa.total_rupees == cb.total_rupees:
+                reason = (
+                    f"Continuity mismatch (breakdown differs): previous event ({prev.event_id}) "
+                    f"capital_after and this event's capital_before both total ₹{pa.total_rupees:,} "
+                    f"but share counts or face values differ. Verify extraction accuracy."
+                )
+            elif pa and cb:
+                reason = (
+                    f"Continuity break: previous event ({prev.event_id}) capital_after "
+                    f"= ₹{pa.total_rupees:,} but this event's capital_before = ₹{cb.total_rupees:,}. "
+                    f"Possible missing alteration between these events."
+                )
+            else:
+                reason = (
+                    f"Continuity break between {prev.event_id} and {curr.event_id}. "
+                    f"One or both capital amounts are missing."
+                )
             flags.append(Flag(
                 field="capital_before",
                 event_id=curr.event_id,
-                reason=(
-                    f"Continuity break: previous event ({prev.event_id}) capital_after "
-                    f"= ₹{pb:,} but this event's capital_before = ₹{cb:,}. "
-                    f"Possible missing alteration between these events."
-                ) if isinstance(pb, int) and isinstance(cb, int) else (
-                    f"Continuity break between {prev.event_id} and {curr.event_id}. "
-                    f"One or both capital amounts are missing."
-                ),
+                reason=reason,
                 severity=FlagSeverity.WARNING,
             ))
     return flags

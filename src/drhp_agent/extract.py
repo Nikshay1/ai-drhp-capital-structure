@@ -161,11 +161,20 @@ def _to_alteration(event_id, ext, audit, ctr):
         cid = f"S{ctr[0]}"; ctr[0] += 1
         sources.append(_make_cit(cid, ext.particulars_source_doc, None, ext.particulars_source_quote))
     for f in ext.flags:
-        flags.append(Flag(field=f.get("field","unknown"), event_id=event_id, reason=f.get("reason",""), severity=FlagSeverity(f.get("severity","info"))))
+        reason = f.get("reason", "").strip()
+        if reason:
+            flags.append(Flag(field=f.get("field","unknown"), event_id=event_id, reason=reason, severity=FlagSeverity(f.get("severity","info"))))
     for f in audit.additional_flags:
-        flags.append(Flag(field=f.get("field","unknown"), event_id=event_id, reason=f.get("reason",""), severity=FlagSeverity(f.get("severity","warning"))))
+        reason = f.get("reason", "").strip()
+        if reason:
+            flags.append(Flag(field=f.get("field","unknown"), event_id=event_id, reason=reason, severity=FlagSeverity(f.get("severity","warning"))))
     for corr in audit.corrections:
-        flags.append(Flag(field=corr.get("field",""), event_id=event_id, reason=f"Audit: {corr.get('reason','')}. Orig={corr.get('original_value')}, Fixed={corr.get('corrected_value')}", severity=FlagSeverity.WARNING))
+        reason = corr.get("reason", "").strip()
+        if not reason:
+            continue  # skip empty audit corrections
+        orig = corr.get("original_value", "N/A")
+        fixed = corr.get("corrected_value", "N/A")
+        flags.append(Flag(field=corr.get("field",""), event_id=event_id, reason=f"Audit correction: {reason} (was: {orig}, corrected to: {fixed})", severity=FlagSeverity.WARNING))
         if corr.get("field") == "meeting_date" and corr.get("corrected_value"):
             try: md = date.fromisoformat(corr["corrected_value"])
             except: pass

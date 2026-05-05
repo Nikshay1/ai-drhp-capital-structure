@@ -1,55 +1,27 @@
 # Open Questions & Flags
 
-Total flags: **16**
+Total flags: **6**
 
-## [!] WARNING (9)
+## [X] ERROR (1)
 
-- **Event:** `evt_01_2019_mar` | **Field:** `meeting_type`
-  Audit: . Orig=None, Fixed=None
+- **Event:** `evt_01_2019_mar` | **Field:** `capital_after`
+  Capital after alteration is missing.
 
-- **Event:** `evt_01_2019_mar` | **Field:** `meeting_type_source_doc`
-  Audit: . Orig=None, Fixed=None
+## [!] WARNING (3)
 
-- **Event:** `evt_01_2019_mar` | **Field:** `meeting_type_source_quote`
-  Audit: . Orig=None, Fixed=None
+- **Event:** `evt_01_2019_mar` | **Field:** `particulars`
+  Particulars of change not extracted.
 
-- **Event:** `evt_02_2021_aug` | **Field:** `meeting_type`
-  Audit: . Orig=None, Fixed=None
-
-- **Event:** `evt_02_2021_aug` | **Field:** `meeting_date`
-  Audit: . Orig=None, Fixed=None
-
-- **Event:** `evt_03_2023_jul` | **Field:** `capital_before.breakdown`
-  Audit: . Orig=None, Fixed=None
-
-- **Event:** `evt_03_2023_jul` | **Field:** `capital_after.breakdown`
-  Audit: . Orig=None, Fixed=None
+- **Event:** `evt_02_2021_aug` | **Field:** `capital_before`
+  Continuity break between evt_01_2019_mar and evt_02_2021_aug. One or both capital amounts are missing.
 
 - **Event:** `evt_03_2023_jul` | **Field:** `capital_before`
-  Continuity break: previous event (evt_02_2021_aug) capital_after = ₹1,000,000 but this event's capital_before = ₹1,000,000. Possible missing alteration between these events.
+  Continuity mismatch (breakdown differs): previous event (evt_02_2021_aug) capital_after and this event's capital_before both total ₹1,000,000 but share counts or face values differ. Verify extraction accuracy.
 
-- **Event:** `evt_04_2025_jan` | **Field:** `capital_before.breakdown.num_shares`
-  Audit: . Orig=None, Fixed=None
-
-## [i] INFO (7)
-
-- **Event:** `evt_incorporation` | **Field:** `event`
-  Incorporation row inferred — no incorporation document provided. Capital derived from first alteration's 'before' amount.
-
-- **Event:** `evt_01_2019_mar` | **Field:** `unknown`
-  
-
-- **Event:** `evt_02_2021_aug` | **Field:** `unknown`
-  
+## [i] INFO (2)
 
 - **Event:** `evt_02_2021_aug` | **Field:** `attachments`
   PAS-3 excluded: sh7_02_2021_aug/PAS3_Return_of_Allotment.md
-
-- **Event:** `evt_03_2023_jul` | **Field:** `unknown`
-  
-
-- **Event:** `evt_04_2025_jan` | **Field:** `unknown`
-  
 
 - **Event:** `evt_04_2025_jan` | **Field:** `capital_after`
   Sub-division detected: FV ₹10 → ₹2 (ratio 5:1). Total authorised capital unchanged at ₹5,000,000.
