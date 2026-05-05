@@ -31,7 +31,7 @@ The manual workflow takes 2-4 hours per company:
 - Manually type the capital structure table
 - Flag inconsistencies with hand-written notes
 
-The risk isn't speed — it's consistency. A human analyst reading 16 documents will miss the board resolution date being 7 days before the EGM. Our system catches this automatically.
+The risk isn't speed — it's consistency. A human analyst reading 15 documents will miss the board resolution date being 7 days before the EGM. Our system catches this automatically.
 
 ---
 
@@ -39,11 +39,11 @@ The risk isn't speed — it's consistency. A human analyst reading 16 documents 
 
 ### Inputs
 - **4 SH-7 documents** (the primary RoC filings for capital alteration)
-- **12 attachments** (3 per SH-7): mix of board resolutions, EGM/AGM notices, altered MoA, and one deliberate PAS-3 noise document
-- Total: **16 PDF documents** organised in folders by event
+- **11 attachments** (2-3 per SH-7): mix of board resolutions, EGM/AGM notices, altered MoA, and one deliberate PAS-3 noise document
+- Total: **15 markdown documents** organised in folders by event
 
 ### Outputs
-1. **`capital_structure.md`** — The authorised share capital history table with footnote-style citations (`[S1]`, `[S2]`) and `⚠` markers on flagged cells
+1. **`capital_structure.md`** — The authorised share capital history table with footnote-style citations (`[S1]`, `[S2]`) and `[!]` markers on flagged rows
 2. **`audit.json`** — Full structured output: every event, every field, every source, every flag. This is what an analyst actually reviews.
 3. **`flags.md`** — Human-readable list of open questions, grouped by severity (error → warning → info)
 
@@ -68,7 +68,7 @@ Every field in the output has a `sources` list pointing to `Citation` objects wi
 
 Each stage has a single responsibility and a clear data contract:
 
-- **Stage 1 (Ingest)** converts PDFs to text. No intelligence — just faithful extraction. This isolation means we can swap PDF libraries without touching any other code.
+- **Stage 1 (Ingest)** converts documents (PDF or Markdown) to text. No intelligence — just faithful extraction. This isolation means we can swap parsers without touching any other code.
 - **Stage 2 (Classify)** labels documents. Separated from extraction because the classifier should reject irrelevant documents (PAS-3) before they pollute the extraction prompt.
 - **Stage 3 (Extract)** is where the LLM does heavy lifting. Isolated so we can iterate on prompts without touching ingestion or validation.
 - **Stage 4 (Reconcile)** is pure validation — no LLM calls. This is deterministic logic that catches errors the LLM might make.
@@ -94,7 +94,7 @@ Each intermediate type is a Pydantic model, so the data contract is enforced at 
 - Pure regex: Fast and free, but brittle on OCR'd text where headers get garbled
 - Pure LLM: Reliable but ~$0.001 per doc adds up, and introduces latency
 
-**Trade-off:** Rules handle 80%+ of well-structured PDFs instantly. LLM catches the rest. Cost: ~$0.004 total for 16 docs (only 2-3 need LLM fallback).
+**Trade-off:** Rules handle 80%+ of well-structured documents instantly. LLM catches the rest. Cost: ~$0.004 total for 15 docs (only 2-3 need LLM fallback).
 
 ### 4.2 Two-pass extraction
 
@@ -124,6 +124,18 @@ Each intermediate type is a Pydantic model, so the data contract is enforced at 
 
 **Why:** Cost-effective, supports JSON mode (`response_format=json_object`), widely available. GPT-4o-mini handles classification cheaply; GPT-4o provides the reasoning depth needed for two-pass extraction + audit.
 
+### 4.6 Explicit Prompt Engineering over Generic Instructions
+
+**Decision:** The extraction prompt explicitly describes every field to extract, including nested structure (`capital_before.breakdown.share_class`, etc.).
+
+**Why:** Early versions used a vague prompt ("Extract the capital alteration details") — this caused GPT-4o to consistently return `null` for `capital_before` and `capital_after` on Event 1, despite the data being clearly present in the source documents. The failure was deterministic, not random — proving it was a prompt bug, not LLM noise. Making the prompt explicit with field-level instructions ("look at the 'Existing' field in SH-7 for capital_before") fixed the issue completely.
+
+### 4.7 LLM Output Normalization
+
+**Decision:** Normalize all LLM-returned values before Pydantic validation.
+
+**Why:** GPT-4o returns share classes as "Equity", "equity shares", "Equity Shares", "preference shares" — all must map to the strict `Literal["equity", "preference"]` type. Similarly, dates come back as "DD/MM/YYYY", "YYYY-MM-DD", "Month DD, YYYY" etc. Rather than constraining the LLM (which often doesn't comply), we normalize post-extraction with `_norm_share_class()` and `_parse_date()` helpers.
+
 ---
 
 ## 5. Handling Uncertainty
@@ -138,7 +150,7 @@ Each intermediate type is a Pydantic model, so the data contract is enforced at 
 
 ### What the Analyst Sees
 
-In `capital_structure.md`, cells with warning/error flags get a `⚠` marker. The analyst clicks through to `flags.md` for the full explanation with source citations. `audit.json` gives them the raw data to verify.
+In `capital_structure.md`, rows with warning/error flags get a `[!]` marker next to the date. The analyst checks `flags.md` for the full explanation with source citations. `audit.json` gives them the raw data to verify.
 
 The system never silently drops information. If it can't determine a value, it emits `null` and a flag — never a guess.
 
@@ -170,3 +182,13 @@ It never silently gives up. Every problem becomes a flag. The exit code is non-z
 5. **Integration testing against real MCA filings.** The synthetic dataset is clean; real filings are messier.
 6. **Caching layer.** Cache LLM responses keyed by document content hash to avoid re-extraction during development.
 7. **Better OCR pipeline.** Use Azure Document Intelligence or AWS Textract for production-grade OCR instead of pytesseract.
+
+---
+
+## 8. Lessons Learned
+
+1. **Vague prompts cause deterministic failures.** "Extract the capital alteration details" consistently failed to extract Event 1's capital data. This wasn't LLM randomness — the prompt was under-specified. Explicit field descriptions fixed it.
+2. **Normalize, don't constrain.** Telling the LLM "return only 'equity' or 'preference'" doesn't work reliably. Instead, accept whatever it returns and normalize post-hoc.
+3. **Filter empty flags.** The audit pass generates "corrections" even when nothing is wrong, producing gibberish like `"Audit: . Orig=None, Fixed=None"`. Filtering these out is essential for usable output.
+4. **Continuity checks need nuance.** A naive total-only comparison misses breakdown mismatches; a strict breakdown comparison flags false positives when totals match. The solution: differentiate the warning message based on what actually differs.
+5. **Two-pass extraction is worth the cost.** The audit pass catches real errors (date confusion, arithmetic) at only 2× token cost.
