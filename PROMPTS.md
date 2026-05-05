@@ -6,6 +6,8 @@ This document records every prompt used during the development of the DRHP Capit
 
 ## Prompt 1 — Initial Build
 
+> @[task1_implementation_guide.md] was made using claude opus 4.7 to build the project. 
+
 **User:**
 > Read @[task1_implementation_guide.md] and make this project
 
@@ -98,24 +100,7 @@ Dataset test cases: PAS-3 noise document, board resolution date discrepancy, sub
 
 ---
 
-## Prompt 4 — Add OpenAI API Key + Run Pipeline
-
-**User:**
-> sk-proj-su6dCBb... also this is my openai api key, add it into the .env file so that i could see real results.
-
-**AI Response:**
-- Created `.env` file with the cleaned API key (removed copy-paste spaces).
-- Warned about key rotation since it was shared in chat.
-- Ran the full pipeline: `python -m drhp_agent --input data/ --output out/ -v`
-- Pipeline connected to OpenAI successfully but LLM returned `"Equity"` (capitalized) instead of `"equity"`.
-- **Fixed `extract.py`** — Added `_norm_share_class()` helper that maps any LLM variation ("Equity", "equity shares", "Preference Shares") to strict "equity" or "preference" Literal values.
-- LLM then returned dates as `DD/MM/YYYY` instead of ISO format.
-- **Fixed `extract.py`** — Added `_parse_date()` helper with multi-format parsing (YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY, "Month DD, YYYY", "DD Month YYYY").
-- Re-ran pipeline: 4 events extracted, 16 flags, all 5 stages completed successfully.
-
----
-
-## Prompt 5 — Track Output in Git
+## Prompt 4 — Track Output in Git
 
 **User:**
 > I want the output folder to be pushed to github, remove it from gitignore
@@ -125,7 +110,7 @@ Dataset test cases: PAS-3 noise document, board resolution date discrepancy, sub
 
 ---
 
-## Prompt 6 — Explain [!] Markers
+## Prompt 5 — Explain [!] Markers
 
 **User:**
 > Why is there an [!] mark after the dates in the capital_structure.md? I am not telling you to remove it, just tell me why it is there?
@@ -144,7 +129,7 @@ It signals: "review flags.md for details on this event before trusting this row.
 
 ---
 
-## Prompt 7 — Fix Gibberish Warnings
+## Prompt 6 — Fix Gibberish Warnings
 
 **User:**
 > Event: evt_01_2019_mar | Field: meeting_type Audit: . Orig=None, Fixed=None
@@ -164,17 +149,7 @@ Re-ran pipeline: flags reduced from 16 to 6, all readable and actionable.
 
 ---
 
-## Prompt 8 — Commit Message
-
-**User:**
-> What should I call this commit?
-
-**AI Response (conversation only):**
-Suggested: `fix: clean up audit flags, normalize LLM output, improve date parsing`
-
----
-
-## Prompt 9 — Verify Output Against Source Data
+## Prompt 7 — Verify Output Against Source Data
 
 **User:**
 > Compare this to the actual things in the @[sample input documents for capital structure/SH-7] and @[sample input documents for capital structure/PAS-3] folder's md files to verify the output
@@ -190,7 +165,7 @@ Conclusion: 2/4 rows fully correct, 2 had LLM extraction errors but both were co
 
 ---
 
-## Prompt 10 — Re-run Pipeline
+## Prompt 8 — Re-run Pipeline
 
 **User:**
 > Give me the command to re run it
@@ -200,7 +175,7 @@ Ran `python -m drhp_agent --input data/ --output out/ -v`. Same results — Even
 
 ---
 
-## Prompt 11 — Diagnose Persistent Event 1 Failure
+## Prompt 9 — Diagnose Persistent Event 1 Failure
 
 **User:**
 > If this error is persisting — Event 1 still failed extraction — I don't think it's an LLM error, what do you say?
@@ -225,7 +200,7 @@ Re-ran pipeline — all 4 events now extract correctly:
 
 ---
 
-## Prompt 12 — Verify Output Against Source (Second Time)
+## Prompt 10 — Verify Output Against Source (Second Time)
 
 **User:**
 > Can you look up the files in the @[sample input documents for capital structure/SH-7] and @[sample input documents for capital structure/PAS-3] and verify these results?
@@ -235,7 +210,7 @@ Clarified that the pipeline runs on our synthetic dataset (in `data/`), not the 
 
 ---
 
-## Prompt 13 — Verify Pipeline Accuracy
+## Prompt 11 — Verify Pipeline Accuracy
 
 **User:**
 > Nah I just wanted to know that the data we are running on is actually giving the results given by our system. Compare the table output in @[out/capital_structure.md] and the data files in the @[data] and verify the results, that's all.
@@ -255,7 +230,7 @@ Events 3 and 4 have "From" breakdown inaccuracies because the SH-7 only lists th
 
 ---
 
-## Prompt 14 — Update README
+## Prompt 12 — Update README
 
 **User:**
 > Okay now update the README.md
@@ -265,7 +240,7 @@ Events 3 and 4 have "From" breakdown inaccuracies because the SH-7 only lists th
 
 ---
 
-## Prompt 15 — Document All Prompts
+## Prompt 13 — Document All Prompts
 
 **User:**
 > Make a list of all the prompts I used to make this project and your response to those prompts too. Add all of these to the prompts.md file.
@@ -319,25 +294,6 @@ Review this extraction against source documents for errors.
 Check for: numerical errors, date inconsistencies, misattributed fields,
 missing info, hallucinations.
 ```
-
----
-
-## Prompt 16 — Update DESIGN.md + Final Prompt Log
-
-**User:**
-> There's a final task, update the design.md if it needs any update, and also add the current prompt to the prompt.md and the response too in the chronological order (do the design.md updation task first)
-
-**AI Response:**
-Reviewed DESIGN.md and found several outdated references. Updated `DESIGN.md` with:
-
-- Fixed document counts: "16 PDF documents" → "15 markdown documents"
-- Fixed flag markers: `⚠` → `[!]`
-- Updated Stage 1 description: "converts PDFs to text" → "converts documents (PDF or Markdown) to text"
-- Added **Section 4.6 — Explicit Prompt Engineering**: Documented the lesson from Event 1's deterministic extraction failure and how explicit field-level instructions in the prompt fixed it.
-- Added **Section 4.7 — LLM Output Normalization**: Documented `_norm_share_class()` and `_parse_date()` as a design decision — normalize post-extraction rather than constraining the LLM.
-- Added **Section 8 — Lessons Learned**: 5 lessons from the development process (vague prompts, normalization, empty flags, continuity nuance, two-pass value).
-
-Then added this prompt (Prompt 16) to PROMPTS.md.
 
 ---
 
