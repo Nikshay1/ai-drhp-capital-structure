@@ -1,0 +1,647 @@
+{
+  "company_name": "Acme Analytics Private Limited",
+  "events": [
+    {
+      "event_id": "evt_incorporation",
+      "meeting_date": null,
+      "meeting_type": null,
+      "capital_before": null,
+      "capital_after": {
+        "total_rupees": 100000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 10000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Existing | 1,00,000.00"
+      },
+      "particulars": "Initial Authorised Share Capital at the time of incorporation of the Company.",
+      "sources": [],
+      "flags": [
+        {
+          "field": "event",
+          "event_id": "evt_incorporation",
+          "reason": "Incorporation row inferred — no incorporation document provided. Capital derived from first alteration's 'before' amount.",
+          "severity": "info",
+          "sources": []
+        }
+      ],
+      "is_inferred": true
+    },
+    {
+      "event_id": "evt_01_2019_mar",
+      "meeting_date": "2019-03-22",
+      "meeting_type": "EGM",
+      "capital_before": {
+        "total_rupees": 100000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 10000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Existing | 1,00,000.00"
+      },
+      "capital_after": {
+        "total_rupees": 300000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 30000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Revised | 3,00,000.00"
+      },
+      "particulars": "Increase in authorised share capital from Rs. 1,00,000 to Rs. 3,00,000",
+      "sources": [
+        {
+          "citation_id": "S1",
+          "doc_id": "sh7_01_2019_mar/SH7.md",
+          "page": null,
+          "quote": "By Ordinary resolution at the meeting of the members held on 22/03/2019 (DD/MM/YYYY)"
+        },
+        {
+          "citation_id": "S2",
+          "doc_id": "sh7_01_2019_mar/EGM_Notice.md",
+          "page": null,
+          "quote": "NOTICE IS HEREBY GIVEN THAT THE EXTRA ORDINARY GENERAL MEETING OF THE MEMBERS OF NEXUS BRIGHTLEARN SOLUTIONS PRIVATE LIMITED WILL BE HELD ON 22nd DAY OF MARCH 2019 AT 1:00 P.M."
+        },
+        {
+          "citation_id": "S3",
+          "doc_id": "sh7_01_2019_mar/SH7.md",
+          "page": null,
+          "quote": "Existing | 1,00,000.00"
+        },
+        {
+          "citation_id": "S4",
+          "doc_id": "sh7_01_2019_mar/SH7.md",
+          "page": null,
+          "quote": "Revised | 3,00,000.00"
+        },
+        {
+          "citation_id": "S5",
+          "doc_id": "sh7_01_2019_mar/SH7.md",
+          "page": null,
+          "quote": "The authorised share capital has been increased from\n| | (in Rs.) |\n|---|---|\n| Existing | 1,00,000.00 |\n| Revised | 3,00,000.00 |"
+        }
+      ],
+      "flags": [
+        {
+          "field": "unknown",
+          "event_id": "evt_01_2019_mar",
+          "reason": "",
+          "severity": "info",
+          "sources": []
+        },
+        {
+          "field": "meeting_type",
+          "event_id": "evt_01_2019_mar",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "meeting_type_source_doc",
+          "event_id": "evt_01_2019_mar",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "meeting_type_source_quote",
+          "event_id": "evt_01_2019_mar",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        }
+      ],
+      "is_inferred": false
+    },
+    {
+      "event_id": "evt_02_2021_aug",
+      "meeting_date": "2021-08-15",
+      "meeting_type": "EGM",
+      "capital_before": {
+        "total_rupees": 300000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 30000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Authorised share capital increased from:\n| | (in Rs.) |\n|---|---|\n| Existing | 3,00,000.00 |"
+      },
+      "capital_after": {
+        "total_rupees": 1000000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 50000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Revised capital structure:\n(a) Authorised capital (in Rs.) 10,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 50,000 | 5,00,000.00 |\n| Nominal per equity share | 10 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+      },
+      "particulars": "Increase in authorised share capital",
+      "sources": [
+        {
+          "citation_id": "S6",
+          "doc_id": "sh7_02_2021_aug/SH7.md",
+          "page": null,
+          "quote": "By Ordinary resolution at the meeting held on 15/08/2021 (DD/MM/YYYY)"
+        },
+        {
+          "citation_id": "S7",
+          "doc_id": "sh7_02_2021_aug/Board_Meeting.md",
+          "page": null,
+          "quote": "RESOLVED FURTHER THAT an Extra-ordinary General Meeting be convened."
+        },
+        {
+          "citation_id": "S8",
+          "doc_id": "sh7_02_2021_aug/SH7.md",
+          "page": null,
+          "quote": "Authorised share capital increased from:\n| | (in Rs.) |\n|---|---|\n| Existing | 3,00,000.00 |"
+        },
+        {
+          "citation_id": "S9",
+          "doc_id": "sh7_02_2021_aug/SH7.md",
+          "page": null,
+          "quote": "Revised capital structure:\n(a) Authorised capital (in Rs.) 10,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 50,000 | 5,00,000.00 |\n| Nominal per equity share | 10 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+        },
+        {
+          "citation_id": "S10",
+          "doc_id": "sh7_02_2021_aug/SH7.md",
+          "page": null,
+          "quote": "Purpose: Increase in share capital independently by company"
+        }
+      ],
+      "flags": [
+        {
+          "field": "unknown",
+          "event_id": "evt_02_2021_aug",
+          "reason": "",
+          "severity": "info",
+          "sources": []
+        },
+        {
+          "field": "meeting_type",
+          "event_id": "evt_02_2021_aug",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "meeting_date",
+          "event_id": "evt_02_2021_aug",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "attachments",
+          "event_id": "evt_02_2021_aug",
+          "reason": "PAS-3 excluded: sh7_02_2021_aug/PAS3_Return_of_Allotment.md",
+          "severity": "info",
+          "sources": []
+        }
+      ],
+      "is_inferred": false
+    },
+    {
+      "event_id": "evt_03_2023_jul",
+      "meeting_date": "2023-07-28",
+      "meeting_type": "AGM",
+      "capital_before": {
+        "total_rupees": 1000000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 100000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Authorised share capital increased from:\n| | (in Rs.) |\n|---|---|\n| Existing | 10,00,000.00 |"
+      },
+      "capital_after": {
+        "total_rupees": 5000000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 450000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Revised capital structure:\n(a) Authorised capital (in Rs.) 50,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 4,50,000 | 45,00,000.00 |\n| Nominal per equity share | 10 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+      },
+      "particulars": "Increase in Authorised Share Capital",
+      "sources": [
+        {
+          "citation_id": "S11",
+          "doc_id": "sh7_03_2023_jul/AGM_Notice.md",
+          "page": null,
+          "quote": "NOTICE IS HEREBY GIVEN THAT THE 5th ANNUAL GENERAL MEETING of the members will be held on 28th DAY OF JULY 2023"
+        },
+        {
+          "citation_id": "S12",
+          "doc_id": "sh7_03_2023_jul/SH7.md",
+          "page": null,
+          "quote": "By Ordinary resolution at the Annual General Meeting held on 28/07/2023"
+        },
+        {
+          "citation_id": "S13",
+          "doc_id": "sh7_03_2023_jul/SH7.md",
+          "page": null,
+          "quote": "Authorised share capital increased from:\n| | (in Rs.) |\n|---|---|\n| Existing | 10,00,000.00 |"
+        },
+        {
+          "citation_id": "S14",
+          "doc_id": "sh7_03_2023_jul/SH7.md",
+          "page": null,
+          "quote": "Revised capital structure:\n(a) Authorised capital (in Rs.) 50,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 4,50,000 | 45,00,000.00 |\n| Nominal per equity share | 10 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+        },
+        {
+          "citation_id": "S15",
+          "doc_id": "sh7_03_2023_jul/AGM_Notice.md",
+          "page": null,
+          "quote": "RESOLVED THAT the Authorised Share Capital be increased from Rs. 10,00,000 to Rs. 50,00,000 by creation of additional 4,00,000 Equity Shares of Rs. 10 each."
+        }
+      ],
+      "flags": [
+        {
+          "field": "unknown",
+          "event_id": "evt_03_2023_jul",
+          "reason": "",
+          "severity": "info",
+          "sources": []
+        },
+        {
+          "field": "capital_before.breakdown",
+          "event_id": "evt_03_2023_jul",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "capital_after.breakdown",
+          "event_id": "evt_03_2023_jul",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "capital_before",
+          "event_id": "evt_03_2023_jul",
+          "reason": "Continuity break: previous event (evt_02_2021_aug) capital_after = ₹1,000,000 but this event's capital_before = ₹1,000,000. Possible missing alteration between these events.",
+          "severity": "warning",
+          "sources": []
+        }
+      ],
+      "is_inferred": false
+    },
+    {
+      "event_id": "evt_04_2025_jan",
+      "meeting_date": "2025-01-18",
+      "meeting_type": "EGM",
+      "capital_before": {
+        "total_rupees": 5000000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 450000,
+            "face_value": 10
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Existing | 50,00,000.00"
+      },
+      "capital_after": {
+        "total_rupees": 5000000,
+        "breakdown": [
+          {
+            "share_class": "equity",
+            "num_shares": 2250000,
+            "face_value": 2
+          },
+          {
+            "share_class": "preference",
+            "num_shares": 50000,
+            "face_value": 10
+          }
+        ],
+        "raw_text": "Revised capital structure:\n(a) Authorised capital (in Rs.) 50,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 22,50,000 | 45,00,000.00 |\n| Nominal per equity share | 2 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+      },
+      "particulars": "Sub-division of equity shares. Face value changed from Rs. 10 to Rs. 2.",
+      "sources": [
+        {
+          "citation_id": "S16",
+          "doc_id": "sh7_04_2025_jan/SH7.md",
+          "page": null,
+          "quote": "By Ordinary resolution at the EGM held on 18/01/2025"
+        },
+        {
+          "citation_id": "S17",
+          "doc_id": "sh7_04_2025_jan/EGM_Notice.md",
+          "page": null,
+          "quote": "NOTICE IS HEREBY GIVEN THAT AN EXTRA ORDINARY GENERAL MEETING will be held on 18th DAY OF JANUARY 2025 at 10:00 AM"
+        },
+        {
+          "citation_id": "S18",
+          "doc_id": "sh7_04_2025_jan/SH7.md",
+          "page": null,
+          "quote": "Existing | 50,00,000.00"
+        },
+        {
+          "citation_id": "S19",
+          "doc_id": "sh7_04_2025_jan/SH7.md",
+          "page": null,
+          "quote": "Revised capital structure:\n(a) Authorised capital (in Rs.) 50,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 22,50,000 | 45,00,000.00 |\n| Nominal per equity share | 2 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+        },
+        {
+          "citation_id": "S20",
+          "doc_id": "sh7_04_2025_jan/SH7.md",
+          "page": null,
+          "quote": "Note: Sub-division of equity shares. Face value changed from Rs. 10 to Rs. 2."
+        }
+      ],
+      "flags": [
+        {
+          "field": "unknown",
+          "event_id": "evt_04_2025_jan",
+          "reason": "",
+          "severity": "info",
+          "sources": []
+        },
+        {
+          "field": "capital_before.breakdown.num_shares",
+          "event_id": "evt_04_2025_jan",
+          "reason": "Audit: . Orig=None, Fixed=None",
+          "severity": "warning",
+          "sources": []
+        },
+        {
+          "field": "capital_after",
+          "event_id": "evt_04_2025_jan",
+          "reason": "Sub-division detected: FV ₹10 → ₹2 (ratio 5:1). Total authorised capital unchanged at ₹5,000,000.",
+          "severity": "info",
+          "sources": []
+        }
+      ],
+      "is_inferred": false
+    }
+  ],
+  "all_flags": [
+    {
+      "field": "event",
+      "event_id": "evt_incorporation",
+      "reason": "Incorporation row inferred — no incorporation document provided. Capital derived from first alteration's 'before' amount.",
+      "severity": "info",
+      "sources": []
+    },
+    {
+      "field": "unknown",
+      "event_id": "evt_01_2019_mar",
+      "reason": "",
+      "severity": "info",
+      "sources": []
+    },
+    {
+      "field": "meeting_type",
+      "event_id": "evt_01_2019_mar",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "meeting_type_source_doc",
+      "event_id": "evt_01_2019_mar",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "meeting_type_source_quote",
+      "event_id": "evt_01_2019_mar",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "unknown",
+      "event_id": "evt_02_2021_aug",
+      "reason": "",
+      "severity": "info",
+      "sources": []
+    },
+    {
+      "field": "meeting_type",
+      "event_id": "evt_02_2021_aug",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "meeting_date",
+      "event_id": "evt_02_2021_aug",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "attachments",
+      "event_id": "evt_02_2021_aug",
+      "reason": "PAS-3 excluded: sh7_02_2021_aug/PAS3_Return_of_Allotment.md",
+      "severity": "info",
+      "sources": []
+    },
+    {
+      "field": "unknown",
+      "event_id": "evt_03_2023_jul",
+      "reason": "",
+      "severity": "info",
+      "sources": []
+    },
+    {
+      "field": "capital_before.breakdown",
+      "event_id": "evt_03_2023_jul",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "capital_after.breakdown",
+      "event_id": "evt_03_2023_jul",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "capital_before",
+      "event_id": "evt_03_2023_jul",
+      "reason": "Continuity break: previous event (evt_02_2021_aug) capital_after = ₹1,000,000 but this event's capital_before = ₹1,000,000. Possible missing alteration between these events.",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "unknown",
+      "event_id": "evt_04_2025_jan",
+      "reason": "",
+      "severity": "info",
+      "sources": []
+    },
+    {
+      "field": "capital_before.breakdown.num_shares",
+      "event_id": "evt_04_2025_jan",
+      "reason": "Audit: . Orig=None, Fixed=None",
+      "severity": "warning",
+      "sources": []
+    },
+    {
+      "field": "capital_after",
+      "event_id": "evt_04_2025_jan",
+      "reason": "Sub-division detected: FV ₹10 → ₹2 (ratio 5:1). Total authorised capital unchanged at ₹5,000,000.",
+      "severity": "info",
+      "sources": []
+    }
+  ],
+  "sources_registry": {
+    "S1": {
+      "citation_id": "S1",
+      "doc_id": "sh7_01_2019_mar/SH7.md",
+      "page": null,
+      "quote": "By Ordinary resolution at the meeting of the members held on 22/03/2019 (DD/MM/YYYY)"
+    },
+    "S2": {
+      "citation_id": "S2",
+      "doc_id": "sh7_01_2019_mar/EGM_Notice.md",
+      "page": null,
+      "quote": "NOTICE IS HEREBY GIVEN THAT THE EXTRA ORDINARY GENERAL MEETING OF THE MEMBERS OF NEXUS BRIGHTLEARN SOLUTIONS PRIVATE LIMITED WILL BE HELD ON 22nd DAY OF MARCH 2019 AT 1:00 P.M."
+    },
+    "S3": {
+      "citation_id": "S3",
+      "doc_id": "sh7_01_2019_mar/SH7.md",
+      "page": null,
+      "quote": "Existing | 1,00,000.00"
+    },
+    "S4": {
+      "citation_id": "S4",
+      "doc_id": "sh7_01_2019_mar/SH7.md",
+      "page": null,
+      "quote": "Revised | 3,00,000.00"
+    },
+    "S5": {
+      "citation_id": "S5",
+      "doc_id": "sh7_01_2019_mar/SH7.md",
+      "page": null,
+      "quote": "The authorised share capital has been increased from\n| | (in Rs.) |\n|---|---|\n| Existing | 1,00,000.00 |\n| Revised | 3,00,000.00 |"
+    },
+    "S6": {
+      "citation_id": "S6",
+      "doc_id": "sh7_02_2021_aug/SH7.md",
+      "page": null,
+      "quote": "By Ordinary resolution at the meeting held on 15/08/2021 (DD/MM/YYYY)"
+    },
+    "S7": {
+      "citation_id": "S7",
+      "doc_id": "sh7_02_2021_aug/Board_Meeting.md",
+      "page": null,
+      "quote": "RESOLVED FURTHER THAT an Extra-ordinary General Meeting be convened."
+    },
+    "S8": {
+      "citation_id": "S8",
+      "doc_id": "sh7_02_2021_aug/SH7.md",
+      "page": null,
+      "quote": "Authorised share capital increased from:\n| | (in Rs.) |\n|---|---|\n| Existing | 3,00,000.00 |"
+    },
+    "S9": {
+      "citation_id": "S9",
+      "doc_id": "sh7_02_2021_aug/SH7.md",
+      "page": null,
+      "quote": "Revised capital structure:\n(a) Authorised capital (in Rs.) 10,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 50,000 | 5,00,000.00 |\n| Nominal per equity share | 10 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+    },
+    "S10": {
+      "citation_id": "S10",
+      "doc_id": "sh7_02_2021_aug/SH7.md",
+      "page": null,
+      "quote": "Purpose: Increase in share capital independently by company"
+    },
+    "S11": {
+      "citation_id": "S11",
+      "doc_id": "sh7_03_2023_jul/AGM_Notice.md",
+      "page": null,
+      "quote": "NOTICE IS HEREBY GIVEN THAT THE 5th ANNUAL GENERAL MEETING of the members will be held on 28th DAY OF JULY 2023"
+    },
+    "S12": {
+      "citation_id": "S12",
+      "doc_id": "sh7_03_2023_jul/SH7.md",
+      "page": null,
+      "quote": "By Ordinary resolution at the Annual General Meeting held on 28/07/2023"
+    },
+    "S13": {
+      "citation_id": "S13",
+      "doc_id": "sh7_03_2023_jul/SH7.md",
+      "page": null,
+      "quote": "Authorised share capital increased from:\n| | (in Rs.) |\n|---|---|\n| Existing | 10,00,000.00 |"
+    },
+    "S14": {
+      "citation_id": "S14",
+      "doc_id": "sh7_03_2023_jul/SH7.md",
+      "page": null,
+      "quote": "Revised capital structure:\n(a) Authorised capital (in Rs.) 50,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 4,50,000 | 45,00,000.00 |\n| Nominal per equity share | 10 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+    },
+    "S15": {
+      "citation_id": "S15",
+      "doc_id": "sh7_03_2023_jul/AGM_Notice.md",
+      "page": null,
+      "quote": "RESOLVED THAT the Authorised Share Capital be increased from Rs. 10,00,000 to Rs. 50,00,000 by creation of additional 4,00,000 Equity Shares of Rs. 10 each."
+    },
+    "S16": {
+      "citation_id": "S16",
+      "doc_id": "sh7_04_2025_jan/SH7.md",
+      "page": null,
+      "quote": "By Ordinary resolution at the EGM held on 18/01/2025"
+    },
+    "S17": {
+      "citation_id": "S17",
+      "doc_id": "sh7_04_2025_jan/EGM_Notice.md",
+      "page": null,
+      "quote": "NOTICE IS HEREBY GIVEN THAT AN EXTRA ORDINARY GENERAL MEETING will be held on 18th DAY OF JANUARY 2025 at 10:00 AM"
+    },
+    "S18": {
+      "citation_id": "S18",
+      "doc_id": "sh7_04_2025_jan/SH7.md",
+      "page": null,
+      "quote": "Existing | 50,00,000.00"
+    },
+    "S19": {
+      "citation_id": "S19",
+      "doc_id": "sh7_04_2025_jan/SH7.md",
+      "page": null,
+      "quote": "Revised capital structure:\n(a) Authorised capital (in Rs.) 50,00,000.00\n| Particulars | Count | Amount (Rs.) |\n|---|---|---|\n| Equity shares | 22,50,000 | 45,00,000.00 |\n| Nominal per equity share | 2 | |\n| Preference shares | 50,000 | 5,00,000.00 |\n| Nominal per preference share | 10 | |"
+    },
+    "S20": {
+      "citation_id": "S20",
+      "doc_id": "sh7_04_2025_jan/SH7.md",
+      "page": null,
+      "quote": "Note: Sub-division of equity shares. Face value changed from Rs. 10 to Rs. 2."
+    }
+  }
+}

@@ -10,7 +10,6 @@ build/
 .venv/
 venv/
 env/
-out/
 *.pyc
 .pytest_cache/
 .mypy_cache/
