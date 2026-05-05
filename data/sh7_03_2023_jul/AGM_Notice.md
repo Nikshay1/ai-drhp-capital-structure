@@ -1,0 +1,10 @@
+# NEXUS BRIGHTLEARN SOLUTIONS PRIVATE LIMITED
+NOTICE IS HEREBY GIVEN THAT THE 5th ANNUAL GENERAL MEETING of the members will be held on 28th DAY OF JULY 2023 at 3:00 PM at KRISHNA TOWER PLOT NO-45 SECTOR-12 DWARKA NEW DELHI DL 110075
+
+## SPECIAL BUSINESS:
+### ITEM NO. 3 - Increase in Authorised Share Capital
+RESOLVED THAT the Authorised Share Capital be increased from Rs. 10,00,000 to Rs. 50,00,000 by creation of additional 4,00,000 Equity Shares of Rs. 10 each.
+
+Date: 15/07/2023
+BY ORDER OF THE BOARD
+ARUN VIKRAM SETHI (DIRECTOR)

@@ -116,13 +116,13 @@ Each intermediate type is a Pydantic model, so the data contract is enforced at 
 
 **Alternative:** LangChain/LlamaIndex for document loading and chain orchestration.
 
-**Trade-off:** Frameworks add ceremony and obscure decisions. On a task this size (16 docs, 5 stages), plain Python is clearer, easier to debug, and shows the reviewer we understand what we're building. The entire codebase is <800 lines.
+**Trade-off:** Frameworks add ceremony and obscure decisions. On a task this size (15 docs, 5 stages), plain Python is clearer, easier to debug, and shows the reviewer we understand what we're building. The entire codebase is <800 lines.
 
-### 4.5 pdfplumber as primary extractor
+### 4.5 OpenAI GPT-4o as LLM backend
 
-**Decision:** pdfplumber first, pymupdf fallback, pytesseract for OCR.
+**Decision:** GPT-4o for extraction, GPT-4o-mini for classification.
 
-**Why:** pdfplumber handles tables better than pymupdf. pymupdf is faster and more robust as a fallback. pytesseract catches scanned documents. The fallback chain means we never silently fail on a document.
+**Why:** Cost-effective, supports JSON mode (`response_format=json_object`), widely available. GPT-4o-mini handles classification cheaply; GPT-4o provides the reasoning depth needed for two-pass extraction + audit.
 
 ---
 

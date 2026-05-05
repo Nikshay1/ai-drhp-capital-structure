@@ -104,13 +104,32 @@ def _audit_pass2(event_id, docs, extraction):
         log.warning("Audit failed for %s: %s", event_id, e)
         return AuditResponse()
 
+def _norm_share_class(raw: str) -> str:
+    """Normalize LLM share_class to 'equity' or 'preference'."""
+    v = raw.lower().strip()
+    if "prefer" in v:
+        return "preference"
+    return "equity"
+
+def _parse_date(raw: str):
+    """Parse dates from various formats the LLM might return."""
+    from datetime import datetime
+    raw = raw.strip().rstrip(".")
+    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%B %d, %Y", "%d %B %Y", "%d %b %Y", "%m/%d/%Y"):
+        try:
+            return datetime.strptime(raw, fmt).date()
+        except ValueError:
+            continue
+    return None
+
 def _to_alteration(event_id, ext, audit, ctr):
     sources, flags = [], []
     # meeting date
     md = None
     if ext.meeting_date:
-        try: md = date.fromisoformat(ext.meeting_date)
-        except ValueError: flags.append(Flag(field="meeting_date", event_id=event_id, reason=f"Bad date: {ext.meeting_date}", severity=FlagSeverity.WARNING))
+        md = _parse_date(ext.meeting_date)
+        if md is None:
+            flags.append(Flag(field="meeting_date", event_id=event_id, reason=f"Could not parse date: {ext.meeting_date}", severity=FlagSeverity.WARNING))
     if ext.meeting_date_source_doc:
         cid = f"S{ctr[0]}"; ctr[0] += 1
         sources.append(_make_cit(cid, ext.meeting_date_source_doc, ext.meeting_date_source_page, ext.meeting_date_source_quote))
@@ -126,7 +145,7 @@ def _to_alteration(event_id, ext, audit, ctr):
     cb = None
     if ext.capital_before:
         c = ext.capital_before
-        cb = CapitalAmount(total_rupees=c.total_rupees, breakdown=[ShareTranche(share_class=t.share_class, num_shares=t.num_shares, face_value=t.face_value) for t in c.breakdown], raw_text=c.raw_text)
+        cb = CapitalAmount(total_rupees=c.total_rupees, breakdown=[ShareTranche(share_class=_norm_share_class(t.share_class), num_shares=t.num_shares, face_value=t.face_value) for t in c.breakdown], raw_text=c.raw_text)
         if c.source_doc_id:
             cid = f"S{ctr[0]}"; ctr[0] += 1
             sources.append(_make_cit(cid, c.source_doc_id, c.source_page, c.source_quote))
@@ -134,7 +153,7 @@ def _to_alteration(event_id, ext, audit, ctr):
     ca = None
     if ext.capital_after:
         c = ext.capital_after
-        ca = CapitalAmount(total_rupees=c.total_rupees, breakdown=[ShareTranche(share_class=t.share_class, num_shares=t.num_shares, face_value=t.face_value) for t in c.breakdown], raw_text=c.raw_text)
+        ca = CapitalAmount(total_rupees=c.total_rupees, breakdown=[ShareTranche(share_class=_norm_share_class(t.share_class), num_shares=t.num_shares, face_value=t.face_value) for t in c.breakdown], raw_text=c.raw_text)
         if c.source_doc_id:
             cid = f"S{ctr[0]}"; ctr[0] += 1
             sources.append(_make_cit(cid, c.source_doc_id, c.source_page, c.source_quote))
