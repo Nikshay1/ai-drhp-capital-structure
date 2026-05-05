@@ -9,7 +9,7 @@ This document records every prompt used during the development of the DRHP Capit
 > @[task1_implementation_guide.md] was made using claude opus 4.7 to build the project. 
 
 **User:**
-> Read @[task1_implementation_guide.md] and make this project
+> Read @[task1_implementation_guide.md] and make this project, if there's any confusion just ask me, don't asssume the direction and conditions. 
 
 **Referenced file — `task1_implementation_guide.md` (summary):**
 
@@ -63,7 +63,7 @@ Also fixed `pyproject.toml` build backend (`setuptools.backends._legacy` → `se
 ## Prompt 2 — Switch from Anthropic to OpenAI
 
 **User:**
-> I don't have claude api credits, I want to use open api key instead
+> I don't have claude api credits, I want to use open api key instead, update the code for the same.
 
 **AI Response:**
 Migrated the LLM client from Anthropic Claude to OpenAI GPT-4o. Updated files:
