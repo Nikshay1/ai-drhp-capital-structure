@@ -9,6 +9,23 @@ This document records every prompt used during the development of the DRHP Capit
 **User:**
 > Read @[task1_implementation_guide.md] and make this project
 
+**Referenced file — `task1_implementation_guide.md` (summary):**
+
+The implementation guide is a detailed playbook for building a DRHP Capital Structure Drafting Agent. Key points:
+
+- **Domain**: Authorised Share Capital is the maximum share capital a company can issue (per MoA). Every change requires a shareholder resolution + SH-7 filing with RoC. The target output is a chronological table tracking these changes from incorporation to filing date.
+- **Document types**: SH-7 (primary source), PAS-3 (issued capital — out of scope, must be filtered), Board Resolutions, EGM/AGM Notices, Altered MoA.
+- **Inputs**: 4 SH-7 documents with 3 attachments each (16 docs total). Must include deliberate complications: face-value sub-division, mixed capital (equity + preference), date disagreement between documents, PAS-3 noise document.
+- **Architecture**: 5-stage pipeline — Ingest → Classify → Extract → Reconcile → Render.
+- **Stage 1 (Ingest)**: PDF → text with `(doc_id, page, offset)` metadata.
+- **Stage 2 (Classify)**: Label each doc (SH-7, PAS-3, etc.) with rules-first + LLM fallback.
+- **Stage 3 (Extract)**: Two-pass LLM extraction. Pass 1 extracts fields with per-field source attribution. Pass 2 audits for errors. Uses Pydantic schemas (`CapitalAmount`, `CapitalAlteration`, `Citation`, `Flag`).
+- **Stage 4 (Reconcile)**: Within-event consistency, cross-event continuity (row N "To" = row N+1 "From"), incorporation row synthesis, schema completeness.
+- **Stage 5 (Render)**: Output `capital_structure.md` (table with citations + flags), `audit.json` (full structured data), `flags.md` (open questions).
+- **Prompt design**: Schema-first, quote-then-extract, explicitly allow null + flag.
+- **Key principle**: "If something's missing or unclear, the system should say so." — never guess.
+- **Deliverables**: GitHub repo (README, working code, sample output), PROMPTS.md (iteration log), DESIGN.md (hand-written design doc).
+
 **AI Response:**
 Read the full implementation guide and built the entire 5-stage pipeline from scratch. Created the following files:
 
