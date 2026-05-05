@@ -1,12 +1,11 @@
 """Thin LLM client wrapper.
 
 Centralises all LLM calls behind a single interface so that:
-  - We can swap providers (Anthropic ↔ OpenAI) in one place.
-  - We enforce structured JSON output via tool-use / response_format.
+  - We can swap providers in one place.
+  - We enforce structured JSON output via response_format / system prompts.
   - Token usage is logged for cost tracking.
 
-Currently backed by Anthropic Claude (Sonnet for extraction, Haiku for
-classification).
+Backed by OpenAI (GPT-4o for extraction, GPT-4o-mini for classification).
 """
 
 from __future__ import annotations
@@ -29,18 +28,18 @@ T = TypeVar("T", bound=BaseModel)
 # Configuration
 # ---------------------------------------------------------------------------
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-CLASSIFICATION_MODEL = os.getenv("DRHP_CLASSIFICATION_MODEL", "claude-sonnet-4-20250514")
-EXTRACTION_MODEL = os.getenv("DRHP_EXTRACTION_MODEL", "claude-sonnet-4-20250514")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+CLASSIFICATION_MODEL = os.getenv("DRHP_CLASSIFICATION_MODEL", "gpt-4o-mini")
+EXTRACTION_MODEL = os.getenv("DRHP_EXTRACTION_MODEL", "gpt-4o")
 
 _total_input_tokens = 0
 _total_output_tokens = 0
 
 
 def _get_client():
-    """Lazy-init Anthropic client."""
-    import anthropic
-    return anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    """Lazy-init OpenAI client."""
+    from openai import OpenAI
+    return OpenAI(api_key=OPENAI_API_KEY)
 
 
 # ---------------------------------------------------------------------------
@@ -77,27 +76,31 @@ def call_llm_structured(
     )
 
     client = _get_client()
-    response = client.messages.create(
+    response = client.chat.completions.create(
         model=model,
         max_tokens=max_tokens,
         temperature=temperature,
-        system=full_system,
-        messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"},
+        messages=[
+            {"role": "system", "content": full_system},
+            {"role": "user", "content": prompt},
+        ],
     )
 
-    _total_input_tokens += response.usage.input_tokens
-    _total_output_tokens += response.usage.output_tokens
-    log.debug(
-        "LLM call: model=%s, input_tokens=%d, output_tokens=%d",
-        model, response.usage.input_tokens, response.usage.output_tokens,
-    )
+    usage = response.usage
+    if usage:
+        _total_input_tokens += usage.prompt_tokens
+        _total_output_tokens += usage.completion_tokens
+        log.debug(
+            "LLM call: model=%s, input_tokens=%d, output_tokens=%d",
+            model, usage.prompt_tokens, usage.completion_tokens,
+        )
 
-    raw = response.content[0].text.strip()
+    raw = response.choices[0].message.content.strip()
 
     # Strip markdown fences if present
     if raw.startswith("```"):
         lines = raw.split("\n")
-        # Remove first and last lines (fences)
         lines = [l for l in lines if not l.strip().startswith("```")]
         raw = "\n".join(lines)
 
@@ -117,18 +120,22 @@ def call_llm_text(
 
     model = model or EXTRACTION_MODEL
     client = _get_client()
-    response = client.messages.create(
+    response = client.chat.completions.create(
         model=model,
         max_tokens=max_tokens,
         temperature=temperature,
-        system=system or "You are a helpful assistant.",
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {"role": "system", "content": system or "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
     )
 
-    _total_input_tokens += response.usage.input_tokens
-    _total_output_tokens += response.usage.output_tokens
+    usage = response.usage
+    if usage:
+        _total_input_tokens += usage.prompt_tokens
+        _total_output_tokens += usage.completion_tokens
 
-    return response.content[0].text.strip()
+    return response.choices[0].message.content.strip()
 
 
 def get_token_usage() -> dict[str, int]:
