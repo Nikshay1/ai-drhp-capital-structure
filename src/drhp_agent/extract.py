@@ -67,17 +67,29 @@ _EXTRACT_SYS = "You are an expert in Indian corporate filings and share capital 
 _EXTRACT_PROMPT = """Analyse these Indian corporate documents for a single capital alteration event.
 
 RULES:
-1. Quote exact text, then extract the value.
-2. If unknown, return null and add a flag. Do NOT guess.
-3. meeting_date = shareholder meeting date (AGM/EGM), NOT board meeting or filing date.
-4. Amounts in whole rupees (₹5,00,000 = 500000).
-5. PAS-3 relates to issued capital — flag and ignore for authorised capital.
-6. For sub-divisions, total rupees may not change.
+1. Quote exact text from the documents, then extract the structured value.
+2. If a value is genuinely unknown, return null and add a flag. Do NOT guess.
+3. meeting_date = shareholder meeting date (AGM/EGM date), NOT board meeting or filing date. Format: YYYY-MM-DD.
+4. meeting_type = "EGM" or "AGM" based on what type of meeting it was.
+5. Amounts in whole rupees. Convert Indian notation: Rs. 1,00,000 = 100000, Rs. 3,00,000 = 300000, Rs. 50,00,000 = 5000000.
+6. PAS-3 relates to issued/allotted capital — flag it and ignore for authorised capital extraction.
+7. For sub-divisions, total rupees may not change but face value and share count will.
+
+REQUIRED EXTRACTIONS:
+- capital_before: The EXISTING/BEFORE authorised capital (from "Existing" field in SH-7, or the "from" amount in resolutions).
+  - total_rupees: total amount in rupees (integer)
+  - breakdown: list of share tranches, each with share_class ("equity" or "preference"), num_shares (integer), face_value (integer)
+  - raw_text: exact quoted text describing this capital
+  - source_doc_id: which document this came from
+  - source_quote: exact quote from source
+- capital_after: The REVISED/AFTER authorised capital (from "Revised" field in SH-7, or the "to" amount in resolutions).
+  - Same structure as capital_before.
+- particulars: A one-line description of what changed.
 
 Documents:
 {context}
 
-Extract the capital alteration details."""
+Extract ALL the above fields. Do NOT leave capital_before or capital_after as null if the SH-7 contains Existing/Revised amounts."""
 
 _AUDIT_PROMPT = """Review this extraction against source documents for errors.
 
@@ -92,7 +104,13 @@ Check for: numerical errors, date inconsistencies, misattributed fields, missing
 def _extract_pass1(event_id, docs):
     from .llm import call_llm_structured
     ctx = _build_context(docs)
-    return call_llm_structured(_EXTRACT_PROMPT.format(context=ctx), ExtractionResponse, system=_EXTRACT_SYS)
+    result = call_llm_structured(_EXTRACT_PROMPT.format(context=ctx), ExtractionResponse, system=_EXTRACT_SYS)
+    log.info("Pass1 result for %s: date=%s, type=%s, before=%s, after=%s",
+             event_id, result.meeting_date, result.meeting_type,
+             result.capital_before.total_rupees if result.capital_before else "NULL",
+             result.capital_after.total_rupees if result.capital_after else "NULL")
+    return result
+
 
 def _audit_pass2(event_id, docs, extraction):
     from .llm import call_llm_structured
